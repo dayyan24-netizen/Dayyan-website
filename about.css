@@ -1,0 +1,418 @@
+/* ─── ABOUT PAGE STYLES ─────────────────────────────────────────────────────── */
+
+/* ─── PAGE HERO ──────────────────────────────────────────────────────────────── */
+.about-hero {
+  padding-top: calc(var(--nav-h) + 72px);
+  padding-bottom: 80px;
+}
+
+.about-hero__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Left column */
+.about-hero__eyebrow {
+  margin-bottom: 20px;
+}
+
+.about-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 8vw, 108px);
+  letter-spacing: 0.02em;
+  line-height: 0.92;
+  color: var(--text-1);
+  margin-bottom: 28px;
+}
+
+.about-hero__intro {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text-2);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+.about-hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.about-hero__tags span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  padding: 5px 14px;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.about-hero__tags span:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* Right column — profile card */
+.about-hero__card {
+  background: var(--surface);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  border-top: 2px solid var(--red);
+  border-radius: 4px;
+  padding: 36px 32px;
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+}
+
+.about-hero__card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.about-hero__initials {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--red-dim);
+  border: 1px solid rgba(193,18,31,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  color: var(--red);
+  flex-shrink: 0;
+}
+
+.about-hero__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 3px;
+}
+
+.about-hero__school {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-3);
+}
+
+.about-hero__card-divider {
+  height: 0.5px;
+  background: rgba(255,255,255,0.07);
+  margin-bottom: 24px;
+}
+
+.about-hero__facts {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.about-hero__facts li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.about-hero__fact-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  flex-shrink: 0;
+  padding-top: 2px;
+  min-width: 80px;
+}
+
+.about-hero__fact-val {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-1);
+  text-align: right;
+  line-height: 1.4;
+}
+
+.about-hero__cta {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .about-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .about-hero__card {
+    position: static;
+  }
+  .about-hero__intro {
+    max-width: 100%;
+  }
+}
+
+/* ─── HOW I THINK ────────────────────────────────────────────────────────────── */
+.think__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.think__item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding: 40px 32px;
+  border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  border-right: 0.5px solid rgba(255,255,255,0.05);
+  transition: background var(--transition);
+}
+
+.think__item:hover {
+  background: var(--surface);
+}
+
+/* Remove right border on even items (right column) */
+.think__item:nth-child(2n) {
+  border-right: none;
+}
+
+/* Remove bottom border on last two items */
+.think__item:nth-child(3),
+.think__item:nth-child(4) {
+  border-bottom: none;
+}
+
+.think__number {
+  font-family: var(--font-display);
+  font-size: 40px;
+  letter-spacing: 0.04em;
+  color: var(--red-dim);
+  line-height: 1;
+  padding-top: 4px;
+  transition: color var(--transition);
+}
+
+.think__item:hover .think__number {
+  color: var(--red);
+}
+
+.think__title {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.think__desc {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.75;
+}
+
+@media (max-width: 768px) {
+  .think__grid { grid-template-columns: 1fr; }
+  .think__item {
+    border-right: none;
+    padding: 32px 0;
+  }
+  .think__item:nth-child(3) { border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+  .think__item:last-child { border-bottom: none; }
+}
+
+@media (max-width: 480px) {
+  .think__item { grid-template-columns: 48px 1fr; gap: 16px; }
+}
+
+/* ─── WHY DATA & ECONOMICS ───────────────────────────────────────────────────── */
+.why__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.why__left .section__title {
+  font-size: clamp(42px, 5.5vw, 72px);
+  line-height: 1.02;
+  margin-top: 16px;
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+}
+
+.why__right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.why__block {
+  display: grid;
+  grid-template-columns: 2px 1fr;
+  gap: 28px;
+  padding: 36px 0;
+  border-bottom: 0.5px solid rgba(255,255,255,0.06);
+}
+
+.why__block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.why__block:first-child {
+  padding-top: 0;
+}
+
+.why__block-accent {
+  background: var(--red);
+  border-radius: 1px;
+  opacity: 0.4;
+  transition: opacity var(--transition);
+}
+
+.why__block:hover .why__block-accent {
+  opacity: 1;
+}
+
+.why__block-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.why__block-text {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+
+@media (max-width: 860px) {
+  .why__grid { grid-template-columns: 1fr; gap: 48px; }
+  .why__left .section__title { position: static; }
+}
+
+/* ─── BEYOND THE CLASSROOM ───────────────────────────────────────────────────── */
+.beyond__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.beyond__card {
+  padding: 32px 28px;
+}
+
+.beyond__card-icon {
+  color: var(--red);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.beyond__card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 12px;
+}
+
+.beyond__card-text {
+  font-size: 14px;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+
+@media (max-width: 860px) {
+  .beyond__grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .beyond__grid { grid-template-columns: 1fr; }
+}
+
+/* ─── VALUES STRIP ───────────────────────────────────────────────────────────── */
+.values__inner {
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  flex-wrap: wrap;
+}
+
+.values__list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  flex: 1;
+}
+
+.values__list li {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  padding: 8px 18px;
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.values__list li:hover {
+  border-color: var(--red);
+  color: var(--text-1);
+}
+
+/* ─── ABOUT CTA ──────────────────────────────────────────────────────────────── */
+.about-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 48px 56px;
+  background: var(--surface);
+  border: 0.5px solid rgba(255,255,255,0.07);
+  border-left: 2px solid var(--red);
+  border-radius: 4px;
+}
+
+.about-cta__text {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 40px);
+  letter-spacing: 0.04em;
+  color: var(--text-1);
+}
+
+.about-cta__buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 700px) {
+  .about-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 36px 28px;
+    border-left: none;
+    border-top: 2px solid var(--red);
+  }
+}
