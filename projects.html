@@ -88,6 +88,10 @@
             <span class="proj-index__num">07</span>
             <span class="proj-index__label">Applied Economics</span>
           </a>
+          <a href="#energy-burden" class="proj-index__item">
+            <span class="proj-index__num">08</span>
+            <span class="proj-index__label">Chicago Energy Burden</span>
+          </a>
         </nav>
       </div>
     </section>
@@ -635,6 +639,84 @@
                   </svg>
                   View coursework samples
                   <span class="proj-link__badge">View only</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj-entry" id="energy-burden" aria-labelledby="energy-burden-title">
+      <div class="container">
+
+        <div class="proj-entry__header">
+          <div class="proj-entry__meta">
+            <span class="proj-tag proj-tag--research">Research</span>
+            <span class="proj-tag proj-tag--data">Data</span>
+            <span class="proj-tag proj-tag--policy">Policy</span>
+            <span class="proj-num" aria-hidden="true">08</span>
+          </div>
+          <div class="proj-entry__period">2026 — Present</div>
+        </div>
+
+        <div class="proj-entry__body">
+          <div class="proj-entry__left">
+            <h2 class="proj-entry__title" id="energy-burden-title">
+              Where Energy<br>Bills Hurt Most
+            </h2>
+            <p class="proj-entry__org">James Rocco Quantitative Data Research Scholarship, Lake Forest College. Advisors: Dr. Andrew Gard and Dr. Sugata Banerji</p>
+          </div>
+
+          <div class="proj-entry__right">
+
+            <div class="proj-qa">
+              <div class="proj-qa__item">
+                <span class="proj-qa__label">What it is</span>
+                <p>A spatial econometrics study of household energy burden, the share of income spent on home energy, across 768 Chicago census tracts. It combines the Department of Energy's LEAD Tool with American Community Survey data to map where burden clusters and to model what drives it.</p>
+              </div>
+
+              <div class="proj-qa__item">
+                <span class="proj-qa__label">Why it mattered</span>
+                <p>Chicago households spend about 2.2% of income on energy, but low-income households spend 7%, and published figures only describe the city as a whole. Programs deciding where to send efficiency upgrades and bill assistance need to know which neighborhoods carry the burden and why.</p>
+              </div>
+
+              <div class="proj-qa__item">
+                <span class="proj-qa__label">What I did</span>
+                <p>Built a reproducible Python pipeline that downloads the public data, constructs tract-level burden from about 247,000 LEAD cohort records, and runs on GitHub Actions. Identified 175 tracts in significant high-burden clusters with local Moran's I, fit OLS, spatial error, spatial Durbin, and multiscale geographically weighted regression models, and ran five robustness checks, including an independent burden measure from census utility-cost tables. Found that, at the same income, tracts with more Black and Hispanic residents pay more for energy, so much of the racial gap in burden comes from higher bills.</p>
+              </div>
+
+              <div class="proj-qa__item">
+                <span class="proj-qa__label">Recruiter signal</span>
+                <p>Independent quantitative research from raw public data to published, tested results: spatial statistics, econometric model selection, robustness testing, and an automated pipeline with unit tests. The interactive map turns the analysis into something a non-technical audience can explore.</p>
+              </div>
+            </div>
+
+            <div class="proj-tools">
+              <div class="proj-tools__label">Tools &amp; skills</div>
+              <div class="proj-tools__list">
+                <span>Python</span><span>GeoPandas</span><span>PySAL</span><span>Spatial Econometrics</span>
+                <span>MGWR</span><span>statsmodels</span><span>Census API</span><span>GitHub Actions</span>
+                <span>Leaflet</span><span>Reproducible Research</span>
+              </div>
+            </div>
+
+            <div class="proj-links">
+              <div class="proj-links__label">Access</div>
+              <div class="proj-links__row">
+                <a href="energy-burden.html" class="proj-link proj-link--live" aria-label="Open the interactive energy burden map">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M2 4l4-2 4 2 4-2v10l-4 2-4-2-4 2V4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                    <path d="M6 2v10M10 4v10" stroke="currentColor" stroke-width="1.3"/>
+                  </svg>
+                  Interactive map
+                </a>
+                <a href="https://github.com/fundidayyan-afk/Chicago-Energy-Burden" class="proj-link proj-link--doc" target="_blank" rel="noopener" aria-label="View the code on GitHub">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M5 4L1 8l4 4M11 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Code on GitHub
                 </a>
               </div>
             </div>
