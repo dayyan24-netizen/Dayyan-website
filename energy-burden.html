@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where Energy Bills Hurt Most: Chicago Energy Burden Map — Dayyan Fundi</title>
+  <meta name="description" content="Interactive map of household energy burden across 768 Chicago census tracts, with hotspot clusters and spatial regression findings. James Rocco Quantitative Data Research Scholarship project by Dayyan Fundi.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/energy-burden.css">
+  <script>
+    (function(){
+      var t = localStorage.getItem('df-theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ─── NAVIGATION ──────────────────────────────────────────────────────── -->
+  <header class="nav" role="banner">
+    <div class="container">
+      <div class="nav__inner">
+        <a href="index.html" class="nav__logo">DF<span>.</span></a>
+        <nav aria-label="Primary navigation">
+          <ul class="nav__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="journey.html">Journey</a></li>
+            <li><a href="leadership.html">Leadership</a></li>
+            <li><a href="writing.html">Writing</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="nav__controls">
+          <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light mode">
+            <span class="theme-toggle__icon theme-toggle__icon--dark" aria-hidden="true">☾</span>
+            <span class="theme-toggle__icon theme-toggle__icon--light" aria-hidden="true">☀</span>
+          </button>
+          <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="nav__mobile" role="dialog" aria-label="Mobile navigation">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="journey.html">Journey</a></li>
+      <li><a href="leadership.html">Leadership</a></li>
+      <li><a href="writing.html">Writing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+
+  <main>
+
+    <!-- ─── HERO ──────────────────────────────────────────────────────────── -->
+    <section class="eb-hero" aria-label="Project introduction">
+      <div class="container">
+        <div class="eb-breadcrumb reveal">
+          <a href="projects.html">Projects</a>
+          <span aria-hidden="true">/</span>
+          <span>Chicago Energy Burden</span>
+        </div>
+        <div class="section__eyebrow reveal">Research &middot; James Rocco Quantitative Data Research Scholarship</div>
+        <h1 class="eb-hero__title reveal reveal-delay-1">Where energy bills<br>hurt most in Chicago.</h1>
+        <p class="eb-hero__sub reveal reveal-delay-2">
+          Energy burden is the share of a household's income that goes to home energy. Across Chicago it averages
+          about 2%, but that number hides a divided city. This map shows burden for every census tract,
+          where it clusters, and what the spatial models say drives it.
+        </p>
+
+        <div class="eb-stats reveal reveal-delay-3" aria-label="Headline numbers">
+          <div class="eb-stat">
+            <span class="eb-stat__value" data-stat="citywide_burden" data-decimals="1" data-suffix="%">2.2%</span>
+            <span class="eb-stat__label">Citywide energy burden</span>
+          </div>
+          <div class="eb-stat">
+            <span class="eb-stat__value" data-stat="low_income_burden" data-decimals="1" data-suffix="%">7.0%</span>
+            <span class="eb-stat__label">Low-income households</span>
+          </div>
+          <div class="eb-stat">
+            <span class="eb-stat__value" data-stat="hotspot_tracts">175</span>
+            <span class="eb-stat__label">Tracts in high-burden clusters</span>
+          </div>
+          <div class="eb-stat">
+            <span class="eb-stat__value" data-stat="morans_i" data-decimals="2">0.83</span>
+            <span class="eb-stat__label">Spatial clustering (Moran's I)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── MAP ───────────────────────────────────────────────────────────── -->
+    <section class="eb-map-section" aria-label="Interactive map">
+      <div class="container">
+
+        <div class="eb-map-head">
+          <div class="section__eyebrow">Interactive map</div>
+          <h2 class="eb-map-head__title">Chicago, Illinois: energy burden in all 768 census tracts</h2>
+        </div>
+
+        <div class="eb-controls" role="tablist" aria-label="Choose what the map shows">
+          <button class="eb-layer is-active" role="tab" aria-selected="true" data-layer="burden">Energy burden</button>
+          <button class="eb-layer" role="tab" aria-selected="false" data-layer="cluster">Hotspots</button>
+          <button class="eb-layer" role="tab" aria-selected="false" data-layer="li_burden">Low-income burden</button>
+          <button class="eb-layer" role="tab" aria-selected="false" data-layer="share10">Share above 10%</button>
+          <button class="eb-layer" role="tab" aria-selected="false" data-layer="cost">Energy cost</button>
+          <button class="eb-layer" role="tab" aria-selected="false" data-layer="income">Median income</button>
+        </div>
+        <p class="eb-layer-note" id="eb-layer-note">Total energy spending divided by total household income, by census tract.</p>
+
+        <div class="eb-map-wrap">
+          <div id="eb-map" class="eb-map" role="application" aria-label="Map of Chicago, Illinois, showing energy burden by census tract, with Lake Michigan to the east"></div>
+
+          <aside class="eb-panel" id="eb-panel" aria-live="polite">
+            <div class="eb-panel__empty" id="eb-panel-empty">
+              <span class="t-mono">TRACT READOUT</span>
+              <p>Hover over or tap a tract to see its numbers.</p>
+            </div>
+            <div class="eb-panel__body" id="eb-panel-body" hidden>
+              <span class="t-mono eb-panel__eyebrow" id="eb-p-cluster"></span>
+              <h2 class="eb-panel__title" id="eb-p-name"></h2>
+              <p class="eb-panel__area" id="eb-p-area"></p>
+              <div class="eb-panel__big">
+                <span class="eb-panel__big-value" id="eb-p-burden"></span>
+                <span class="eb-panel__big-label">of income goes to energy</span>
+              </div>
+              <dl class="eb-panel__list">
+                <div><dt>Low-income households</dt><dd id="eb-p-li"></dd></div>
+                <div><dt>Households above 10%</dt><dd id="eb-p-share10"></dd></div>
+                <div><dt>Average yearly energy cost</dt><dd id="eb-p-cost"></dd></div>
+                <div><dt>Median household income</dt><dd id="eb-p-income"></dd></div>
+                <div><dt>Black / Hispanic residents</dt><dd id="eb-p-race"></dd></div>
+                <div><dt>Homes built before 1950</dt><dd id="eb-p-pre1950"></dd></div>
+                <div><dt>Renter-occupied</dt><dd id="eb-p-renter"></dd></div>
+                <div><dt>Households</dt><dd id="eb-p-hh"></dd></div>
+              </dl>
+            </div>
+            <div class="eb-legend" id="eb-legend" aria-label="Map legend"></div>
+          </aside>
+        </div>
+
+        <p class="eb-source">
+          Data: U.S. Department of Energy LEAD Tool (2022 update) and American Community Survey 2018-2022;
+          768 Chicago census tracts. Clusters use local Moran's I with a 5% false discovery rate.
+          <span id="eb-updated"></span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── FINDINGS ──────────────────────────────────────────────────────── -->
+    <section class="section eb-findings" aria-label="Key findings">
+      <div class="container">
+        <div class="section__eyebrow reveal">What the models show</div>
+        <h2 class="section__title reveal">Four questions, four answers.</h2>
+        <div class="eb-findings__grid">
+          <article class="eb-finding reveal">
+            <span class="eb-finding__num">01</span>
+            <h3>Where is burden concentrated?</h3>
+            <p>In two large blocks. 175 tracts on the West Side and across the South Side form statistically significant high-burden clusters, while 203 tracts along the North lakefront form low-burden ones.</p>
+          </article>
+          <article class="eb-finding reveal reveal-delay-1">
+            <span class="eb-finding__num">02</span>
+            <h3>What explains it?</h3>
+            <p>Income comes first, but not alone. In spatial error models, tracts with more Black and Hispanic residents carry higher burden at the same income. Older housing raises burden; large apartment buildings lower it.</p>
+          </article>
+          <article class="eb-finding reveal reveal-delay-2">
+            <span class="eb-finding__num">03</span>
+            <h3>High bills or low incomes?</h3>
+            <p>Both. Holding income and housing constant, a tract with 10 points more Black residents pays about 2.8% more for energy, so much of the racial gap in burden comes from higher bills.</p>
+          </article>
+          <article class="eb-finding reveal reveal-delay-3">
+            <span class="eb-finding__num">04</span>
+            <h3>Does it differ across the city?</h3>
+            <p>Yes. Multiscale geographically weighted regression shows the income effect changes from one small group of tracts to the next, while renter share has the same weak effect citywide.</p>
+          </article>
+        </div>
+        <p class="eb-findings__note reveal">
+          Results hold across alternative neighbor definitions, more reliable census estimates, newer 2020-2024 data,
+          and an independent burden measure built from census utility-cost tables (rank correlation 0.92).
+          These are neighborhood-level associations, not individual-level causes.
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── METHOD + LINKS ────────────────────────────────────────────────── -->
+    <section class="section eb-method" aria-label="Methods and code">
+      <div class="container">
+        <div class="eb-method__grid">
+          <div>
+            <div class="section__eyebrow reveal">How it was built</div>
+            <h2 class="section__title reveal">Fully reproducible.</h2>
+            <p class="eb-method__text reveal">
+              A Python pipeline downloads the public data, builds tract-level burden from 247,000 LEAD household
+              cohorts, tests for clustering, fits OLS, spatial error, spatial Durbin, and MGWR models, runs five
+              robustness checks, and publishes every table and map. It reruns automatically on GitHub Actions
+              whenever the code changes, and this map reads its data straight from that repository.
+            </p>
+            <div class="eb-method__links reveal">
+              <a class="btn btn-primary" href="https://github.com/fundidayyan-afk/Chicago-Energy-Burden" target="_blank" rel="noopener">View the code on GitHub</a>
+              <a class="btn btn-outline" href="https://github.com/fundidayyan-afk/Chicago-Energy-Burden/blob/main/output/RESULTS.md" target="_blank" rel="noopener">Full results</a>
+            </div>
+          </div>
+          <div class="eb-method__tools reveal reveal-delay-1">
+            <div class="proj-tools__label">Tools &amp; methods</div>
+            <div class="eb-tags">
+              <span>Python</span><span>GeoPandas</span><span>PySAL</span><span>spreg</span><span>MGWR</span>
+              <span>statsmodels</span><span>Leaflet</span><span>GitHub Actions</span><span>Census API</span>
+              <span>Local Moran's I</span><span>Spatial econometrics</span><span>Reproducible research</span>
+            </div>
+            <div class="proj-tools__label eb-advisors-label">Advisors</div>
+            <p class="eb-advisors">Dr. Andrew Gard (primary) and Dr. Sugata Banerji, Department of Mathematics and Computer Science, Lake Forest College</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── FOOTER ────────────────────────────────────────────────────────── -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__inner">
+        <p class="footer__copy">&copy; 2026 Dayyan Fundi. All rights reserved.</p>
+        <ul class="footer__links">
+          <li><a href="mailto:dfundi@lakeforest.edu">Email</a></li>
+          <li><a href="https://www.linkedin.com/in/dayyan-fundi-93078b273/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="contact.html">Resume</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="assets/js/global.js"></script>
+  <script src="assets/js/energy-burden.js"></script>
+</body>
+</html>
